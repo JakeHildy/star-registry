@@ -183,7 +183,7 @@ class Blockchain {
     getStarsByWalletAddress (address) {
         let self = this;
         let stars = [];
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             stars = self.chain.filter(block => {
                 const data = block.getBData();
                 return data.address === address;
@@ -202,7 +202,26 @@ class Blockchain {
         let self = this;
         let errorLog = [];
         return new Promise(async (resolve, reject) => {
-            
+            self.chain.forEach(async block => {
+                try {
+                    // Validate block
+                    await block.validate();
+                    // Check with previous block hash
+                    if (block.height > 0) {
+                        if (block.previousBlockHash !== self.chain[block.height - 1].hash) {
+                            errorLog.push(`block ${block.height} previous hash doesn't match`);
+                        }
+                    }
+                } catch (err) {
+                    errorLog.push(err);
+                }
+            })
+            // If the errorLog is empty, chain is valid
+            if (errorLog.length === 0) {
+                resolve('chain valid');
+            }
+            // Reject with ErrorLog
+            reject(errorLog);
         });
     }
 

@@ -46,7 +46,7 @@ class Block {
             // Comparing if the hashes changed
             if (currentBlockHash !== calculatedHash) {
                 // Returning the Block is not valid
-                reject('block is invalid');
+                reject(`block ${self.height} is invalid`);
             } else {
                 // Returning the Block is valid
                 resolve('block is valid');
