@@ -218,7 +218,7 @@ class Blockchain {
             })
             // If the errorLog is empty, chain is valid
             if (errorLog.length === 0) {
-                resolve('chain valid');
+                resolve(errorLog);
             }
             // Reject with ErrorLog
             reject(errorLog);
