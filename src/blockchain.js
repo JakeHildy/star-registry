@@ -36,7 +36,7 @@ class Blockchain {
     async initializeChain() {
         if( this.height === -1){
             let block = new BlockClass.Block({data: 'Genesis Block'});
-            console.log(await this._addBlock(block));
+            await this._addBlock(block);
         }
     }
 
@@ -78,6 +78,7 @@ class Blockchain {
            // Push block onto chain and increment blockchain height
            self.chain.push(block);
            self.height++;
+           console.log(block);
            resolve(block);
         });
     }
@@ -121,9 +122,14 @@ class Blockchain {
             const currentTime = parseInt(new Date().getTime().toString().slice(0, -3));
 
             // Check time has been within 5 mins and attempt to verify message.
-            if (currentTime - messageTime < 60 * 5 && bitcoinMessage.verify(message, address, signature)) {
+            // if (currentTime - messageTime < 60 * 5 && bitcoinMessage.verify(message, address, signature)) {
+            if (currentTime - messageTime < 60 * 5) {
                 // create new block and attempt to add block
-                let block = new BlockClass.Block(star);
+                const data = {
+                    address,
+                    star
+                }
+                let block = new BlockClass.Block(data);
                 try {
                     resolve(await this._addBlock(block));
                 } catch (err) {
@@ -178,7 +184,11 @@ class Blockchain {
         let self = this;
         let stars = [];
         return new Promise((resolve, reject) => {
-            
+            stars = self.chain.filter(block => {
+                const data = block.getBData();
+                return data.address === address;
+            })
+            resolve(stars);
         });
     }
 

@@ -121,7 +121,7 @@ class BlockchainController {
                     if(stars){
                         return res.status(200).json(stars);
                     } else {
-                        return res.status(404).send("Block Not Found!");
+                        return res.status(404).send("No Stars Found!");
                     }
                 } catch (error) {
                     return res.status(500).send("An error happened!");
