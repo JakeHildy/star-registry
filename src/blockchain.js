@@ -199,7 +199,6 @@ class Blockchain {
         })
         .map((block) => block.getBData());
       resolve(stars);
-      // test commit
     });
   }
 
