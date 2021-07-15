@@ -43,7 +43,7 @@ class Blockchain {
    * Utility method that return a Promise that will resolve with the height of the chain
    */
   getChainHeight() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       resolve(this.height);
     });
   }
@@ -62,7 +62,7 @@ class Blockchain {
    */
   _addBlock(block) {
     let self = this;
-    return new Promise(async (resolve, _reject) => {
+    return new Promise(async (resolve) => {
       // Get current chain height
       const chainHeight = self.chain.length;
       // Set block height and timestamp
@@ -172,7 +172,7 @@ class Blockchain {
    */
   getBlockByHeight(height) {
     let self = this;
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       let block = self.chain.filter((p) => p.height === height)[0];
       if (block) {
         resolve(block);
