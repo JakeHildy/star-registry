@@ -134,7 +134,7 @@ class Blockchain {
       ) {
         // create new block and attempt to add block
         const data = {
-          address,
+          owner: address,
           star,
         };
         let block = new BlockClass.Block(data);
@@ -192,10 +192,12 @@ class Blockchain {
     let self = this;
     let stars = [];
     return new Promise((resolve) => {
-      stars = self.chain.filter((block) => {
-        const data = block.getBData();
-        return data.address === address;
-      });
+      stars = self.chain
+        .filter((block) => {
+          const data = block.getBData();
+          return data.owner === address;
+        })
+        .map((block) => block.getBData());
       resolve(stars);
     });
   }
